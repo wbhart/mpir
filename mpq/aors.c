@@ -24,12 +24,12 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 
-static void __gmpq_aors _PROTO ((REGPARM_3_1 (mpq_ptr w, mpq_srcptr x, mpq_srcptr y, void (*fun) _PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr))))) REGPARM_ATTR (1);
+static void __gmpq_aors(REGPARM_3_1 (mpq_ptr w, mpq_srcptr x, mpq_srcptr y, void (*fun)(mpz_ptr, mpz_srcptr, mpz_srcptr))) REGPARM_ATTR (1);
 #define mpq_aors(w,x,y,fun)  __gmpq_aors (REGPARM_3_1 (w, x, y, fun))
 
 REGPARM_ATTR (1) static void
 mpq_aors (mpq_ptr rop, mpq_srcptr op1, mpq_srcptr op2,
-          void (*fun) _PROTO ((mpz_ptr, mpz_srcptr, mpz_srcptr)))
+          void (*fun)(mpz_ptr, mpz_srcptr, mpz_srcptr))
 {
   mpz_t gcd;
   mpz_t tmp1, tmp2;

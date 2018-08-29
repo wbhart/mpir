@@ -40,7 +40,7 @@ MA 02110-1301, USA. */
    hppa. */
 
 #define mpn_umul_ppmm  __MPN(umul_ppmm)
-extern UWtype mpn_umul_ppmm _PROTO ((UWtype *, UWtype, UWtype));
+extern UWtype mpn_umul_ppmm(UWtype *, UWtype, UWtype);
 
 #if ! defined (umul_ppmm) && HAVE_NATIVE_mpn_umul_ppmm  \
   && ! defined (LONGLONG_STANDALONE)
@@ -53,7 +53,7 @@ extern UWtype mpn_umul_ppmm _PROTO ((UWtype *, UWtype, UWtype));
 #endif
 
 #define mpn_umul_ppmm_r  __MPN(umul_ppmm_r)
-extern UWtype mpn_umul_ppmm_r _PROTO ((UWtype, UWtype, UWtype *));
+extern UWtype mpn_umul_ppmm_r(UWtype, UWtype, UWtype *);
 
 #if ! defined (umul_ppmm) && HAVE_NATIVE_mpn_umul_ppmm_r	\
   && ! defined (LONGLONG_STANDALONE)
@@ -66,7 +66,7 @@ extern UWtype mpn_umul_ppmm_r _PROTO ((UWtype, UWtype, UWtype *));
 #endif
 
 #define mpn_udiv_qrnnd  __MPN(udiv_qrnnd)
-extern UWtype mpn_udiv_qrnnd _PROTO ((UWtype *, UWtype, UWtype, UWtype));
+extern UWtype mpn_udiv_qrnnd(UWtype *, UWtype, UWtype, UWtype);
 
 #if ! defined (udiv_qrnnd) && HAVE_NATIVE_mpn_udiv_qrnnd	\
   && ! defined (LONGLONG_STANDALONE)
@@ -80,7 +80,7 @@ extern UWtype mpn_udiv_qrnnd _PROTO ((UWtype *, UWtype, UWtype, UWtype));
 #endif
 
 #define mpn_udiv_qrnnd_r  __MPN(udiv_qrnnd_r)
-extern UWtype mpn_udiv_qrnnd_r _PROTO ((UWtype, UWtype, UWtype, UWtype *));
+extern UWtype mpn_udiv_qrnnd_r(UWtype, UWtype, UWtype, UWtype *);
 
 #if ! defined (udiv_qrnnd) && HAVE_NATIVE_mpn_udiv_qrnnd_r	\
   && ! defined (LONGLONG_STANDALONE)

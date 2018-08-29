@@ -44,8 +44,8 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-static mpir_ui gcd _PROTO ((mpir_ui a, mpir_ui b));
-static int isprime _PROTO ((mpir_ui t));
+static mpir_ui gcd(mpir_ui a, mpir_ui b);
+static int isprime(mpir_ui t);
 
 static const unsigned short primes[] =
 {  2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,

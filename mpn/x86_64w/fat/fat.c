@@ -34,7 +34,7 @@ MA 02110-1301, USA. */
 #define TRACE(x)
 
 /* fat_entry.asm */
-long __gmpn_cpuid __GMP_PROTO ((char dst[12], int id));
+long __gmpn_cpuid(char dst[12], int id);
 
 struct cpuvec_t __gmpn_cpuvec = {
   __MPN(add_err1_n_init),

@@ -25,8 +25,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 #include "tests.h"
 
-static mp_size_t one_test __GMP_PROTO ((mpz_t, mpz_t, int));
-static void debug_mp __GMP_PROTO ((mpz_t, int));
+static mp_size_t one_test(mpz_t, mpz_t, int);
+static void debug_mp(mpz_t, int);
 
 #define MIN_OPERAND_SIZE 2
 
@@ -50,10 +50,10 @@ struct hgcd_ref
   mpz_t m[2][2];
 };
 
-static void hgcd_ref_init __GMP_PROTO ((struct hgcd_ref *hgcd));
-static void hgcd_ref_clear __GMP_PROTO ((struct hgcd_ref *hgcd));
-static int hgcd_ref __GMP_PROTO ((struct hgcd_ref *hgcd, mpz_t a, mpz_t b));
-static int hgcd_ref_equal __GMP_PROTO ((const struct hgcd_matrix *hgcd, const struct hgcd_ref *ref));
+static void hgcd_ref_init(struct hgcd_ref *hgcd);
+static void hgcd_ref_clear(struct hgcd_ref *hgcd);
+static int hgcd_ref(struct hgcd_ref *hgcd, mpz_t a, mpz_t b);
+static int hgcd_ref_equal(const struct hgcd_matrix *hgcd, const struct hgcd_ref *ref);
 
 int
 main (int argc, char **argv)

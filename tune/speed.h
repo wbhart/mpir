@@ -91,13 +91,13 @@ extern double  speed_unittime;
 extern double  speed_cycletime;
 extern int     speed_precision;
 extern char    speed_time_string[];
-void speed_time_init _PROTO ((void));
-void speed_cycletime_fail _PROTO ((const char *str));
-void speed_cycletime_init _PROTO ((void));
-void speed_cycletime_need_cycles _PROTO ((void));
-void speed_cycletime_need_seconds _PROTO ((void));
-void speed_starttime _PROTO ((void));
-double speed_endtime _PROTO ((void));
+void speed_time_init(void);
+void speed_cycletime_fail(const char *str);
+void speed_cycletime_init(void);
+void speed_cycletime_need_cycles(void);
+void speed_cycletime_need_seconds(void);
+void speed_starttime(void);
+double speed_endtime(void);
 #endif
 
 struct speed_params {
@@ -124,101 +124,101 @@ struct speed_params {
   } src[5], dst[5];
 };
 
-typedef double (*speed_function_t) _PROTO ((struct speed_params *s));
+typedef double (*speed_function_t)(struct speed_params *s);
 
-double speed_measure _PROTO ((speed_function_t fun, struct speed_params *s));
+double speed_measure(speed_function_t fun, struct speed_params *s);
 
 /* Prototypes for speed measuring routines */
 
-double speed_back_to_back _PROTO ((struct speed_params *s));
-double speed_count_leading_zeros _PROTO ((struct speed_params *s));
-double speed_count_trailing_zeros _PROTO ((struct speed_params *s));
-double speed_gmp_allocate_free _PROTO ((struct speed_params *s));
-double speed_gmp_allocate_reallocate_free _PROTO ((struct speed_params *s));
-double speed_invert_limb _PROTO ((struct speed_params *s));
-double speed_malloc_free _PROTO ((struct speed_params *s));
-double speed_malloc_realloc_free _PROTO ((struct speed_params *s));
-double speed_memcpy _PROTO ((struct speed_params *s));
-double speed_modlimb_invert _PROTO ((struct speed_params *s));
-double speed_modlimb_invert_mul1 _PROTO ((struct speed_params *s));
-double speed_modlimb_invert_loop _PROTO ((struct speed_params *s));
-double speed_modlimb_invert_cond _PROTO ((struct speed_params *s));
-double speed_modlimb_invert_arith _PROTO ((struct speed_params *s));
+double speed_back_to_back(struct speed_params *s);
+double speed_count_leading_zeros(struct speed_params *s);
+double speed_count_trailing_zeros(struct speed_params *s);
+double speed_gmp_allocate_free(struct speed_params *s);
+double speed_gmp_allocate_reallocate_free(struct speed_params *s);
+double speed_invert_limb(struct speed_params *s);
+double speed_malloc_free(struct speed_params *s);
+double speed_malloc_realloc_free(struct speed_params *s);
+double speed_memcpy(struct speed_params *s);
+double speed_modlimb_invert(struct speed_params *s);
+double speed_modlimb_invert_mul1(struct speed_params *s);
+double speed_modlimb_invert_loop(struct speed_params *s);
+double speed_modlimb_invert_cond(struct speed_params *s);
+double speed_modlimb_invert_arith(struct speed_params *s);
 
-double speed_mpf_init_clear _PROTO ((struct speed_params *s));
-double speed_mpn_add_err1_n _PROTO ((struct speed_params *s));
-double speed_mpn_sub_err1_n _PROTO ((struct speed_params *s));
+double speed_mpf_init_clear(struct speed_params *s);
+double speed_mpn_add_err1_n(struct speed_params *s);
+double speed_mpn_sub_err1_n(struct speed_params *s);
 
-double speed_mpn_add_n _PROTO ((struct speed_params *s));
-double speed_mpn_addadd_n _PROTO ((struct speed_params *s));
-double speed_mpn_subadd_n _PROTO ((struct speed_params *s));
-double speed_mpn_addlsh1_n _PROTO ((struct speed_params *s));
-double speed_mpn_addlsh_n _PROTO ((struct speed_params *s));
-double speed_mpn_sublsh_n _PROTO ((struct speed_params *s));
-double speed_mpn_declsh_n _PROTO ((struct speed_params *s));
-double speed_mpn_inclsh_n _PROTO ((struct speed_params *s));
-double speed_mpn_sumdiff_n _PROTO ((struct speed_params *s));
-double speed_mpn_nsumdiff_n _PROTO ((struct speed_params *s));
-double speed_mpn_and_n _PROTO ((struct speed_params *s));
-double speed_mpn_andn_n _PROTO ((struct speed_params *s));
-double speed_mpn_addmul_1 _PROTO ((struct speed_params *s));
-double speed_mpn_addmul_2 _PROTO ((struct speed_params *s));
-double speed_mpn_addmul_3 _PROTO ((struct speed_params *s));
-double speed_mpn_addmul_4 _PROTO ((struct speed_params *s));
-double speed_mpn_addmul_5 _PROTO ((struct speed_params *s));
-double speed_mpn_addmul_6 _PROTO ((struct speed_params *s));
-double speed_mpn_addmul_7 _PROTO ((struct speed_params *s));
-double speed_mpn_addmul_8 _PROTO ((struct speed_params *s));
-double speed_mpn_addsub_n _PROTO ((struct speed_params *s));
-double speed_mpn_com_n _PROTO ((struct speed_params *s));
-double speed_mpn_not _PROTO ((struct speed_params *s));
-double speed_mpn_copyd _PROTO ((struct speed_params *s));
-double speed_mpn_copyi _PROTO ((struct speed_params *s));
-double speed_mpn_dc_tdiv_qr _PROTO ((struct speed_params *s));
-double speed_mpn_dc_div_qr_n _PROTO ((struct speed_params *s));
-double speed_mpn_tdiv_q _PROTO ((struct speed_params *s));
-double speed_mpn_tdiv_q1 _PROTO ((struct speed_params *s));
-double speed_mpn_sb_divappr_q _PROTO ((struct speed_params *s));
-double speed_mpn_sb_div_qr _PROTO ((struct speed_params *s));
-double speed_mpn_dc_divappr_q _PROTO ((struct speed_params *s));
-double speed_mpn_dc_bdiv_q _PROTO ((struct speed_params *s));
-double speed_mpn_dc_bdiv_qr_n _PROTO ((struct speed_params *s));
-double speed_mpn_inv_div_qr _PROTO ((struct speed_params *s));
-double speed_mpn_inv_divappr_q _PROTO ((struct speed_params *s));
-double speed_mpn_tdiv_q _PROTO ((struct speed_params *s));
-double speed_mpn_tdiv_q2 _PROTO ((struct speed_params *s));
-double speed_MPN_COPY _PROTO ((struct speed_params *s));
-double speed_MPN_COPY_DECR _PROTO ((struct speed_params *s));
-double speed_MPN_COPY_INCR _PROTO ((struct speed_params *s));
-double speed_mpn_divexact_1 _PROTO ((struct speed_params *s));
-double speed_mpn_divexact_by3 _PROTO ((struct speed_params *s));
-double speed_mpn_divexact_byff _PROTO ((struct speed_params *s));
-double speed_mpn_divexact_byfobm1 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_euclidean_qr_1 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_euclidean_qr_2 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_euclidean_r_1 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_hensel_qr_1 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_hensel_qr_1_1 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_hensel_qr_1_2 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_hensel_r_1 _PROTO ((struct speed_params *s));
-double speed_mpn_rsh_divrem_hensel_qr_1 _PROTO ((struct speed_params *s));
-double speed_mpn_rsh_divrem_hensel_qr_1_1 _PROTO ((struct speed_params *s));
-double speed_mpn_rsh_divrem_hensel_qr_1_2 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_hensel_rsh_qr_1 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_1 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_1f _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_1c _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_1cf _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_1_div _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_1f_div _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_1_inv _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_1f_inv _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_2 _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_2_div _PROTO ((struct speed_params *s));
-double speed_mpn_divrem_2_inv _PROTO ((struct speed_params *s));
-double speed_mpn_double _PROTO ((struct speed_params *s));
-double speed_mpn_half _PROTO ((struct speed_params *s));
-double speed_mpn_fib2_ui _PROTO ((struct speed_params *s));
+double speed_mpn_add_n(struct speed_params *s);
+double speed_mpn_addadd_n(struct speed_params *s);
+double speed_mpn_subadd_n(struct speed_params *s);
+double speed_mpn_addlsh1_n(struct speed_params *s);
+double speed_mpn_addlsh_n(struct speed_params *s);
+double speed_mpn_sublsh_n(struct speed_params *s);
+double speed_mpn_declsh_n(struct speed_params *s);
+double speed_mpn_inclsh_n(struct speed_params *s);
+double speed_mpn_sumdiff_n(struct speed_params *s);
+double speed_mpn_nsumdiff_n(struct speed_params *s);
+double speed_mpn_and_n(struct speed_params *s);
+double speed_mpn_andn_n(struct speed_params *s);
+double speed_mpn_addmul_1(struct speed_params *s);
+double speed_mpn_addmul_2(struct speed_params *s);
+double speed_mpn_addmul_3(struct speed_params *s);
+double speed_mpn_addmul_4(struct speed_params *s);
+double speed_mpn_addmul_5(struct speed_params *s);
+double speed_mpn_addmul_6(struct speed_params *s);
+double speed_mpn_addmul_7(struct speed_params *s);
+double speed_mpn_addmul_8(struct speed_params *s);
+double speed_mpn_addsub_n(struct speed_params *s);
+double speed_mpn_com_n(struct speed_params *s);
+double speed_mpn_not(struct speed_params *s);
+double speed_mpn_copyd(struct speed_params *s);
+double speed_mpn_copyi(struct speed_params *s);
+double speed_mpn_dc_tdiv_qr(struct speed_params *s);
+double speed_mpn_dc_div_qr_n(struct speed_params *s);
+double speed_mpn_tdiv_q(struct speed_params *s);
+double speed_mpn_tdiv_q1(struct speed_params *s);
+double speed_mpn_sb_divappr_q(struct speed_params *s);
+double speed_mpn_sb_div_qr(struct speed_params *s);
+double speed_mpn_dc_divappr_q(struct speed_params *s);
+double speed_mpn_dc_bdiv_q(struct speed_params *s);
+double speed_mpn_dc_bdiv_qr_n(struct speed_params *s);
+double speed_mpn_inv_div_qr(struct speed_params *s);
+double speed_mpn_inv_divappr_q(struct speed_params *s);
+double speed_mpn_tdiv_q(struct speed_params *s);
+double speed_mpn_tdiv_q2(struct speed_params *s);
+double speed_MPN_COPY(struct speed_params *s);
+double speed_MPN_COPY_DECR(struct speed_params *s);
+double speed_MPN_COPY_INCR(struct speed_params *s);
+double speed_mpn_divexact_1(struct speed_params *s);
+double speed_mpn_divexact_by3(struct speed_params *s);
+double speed_mpn_divexact_byff(struct speed_params *s);
+double speed_mpn_divexact_byfobm1(struct speed_params *s);
+double speed_mpn_divrem_euclidean_qr_1(struct speed_params *s);
+double speed_mpn_divrem_euclidean_qr_2(struct speed_params *s);
+double speed_mpn_divrem_euclidean_r_1(struct speed_params *s);
+double speed_mpn_divrem_hensel_qr_1(struct speed_params *s);
+double speed_mpn_divrem_hensel_qr_1_1(struct speed_params *s);
+double speed_mpn_divrem_hensel_qr_1_2(struct speed_params *s);
+double speed_mpn_divrem_hensel_r_1(struct speed_params *s);
+double speed_mpn_rsh_divrem_hensel_qr_1(struct speed_params *s);
+double speed_mpn_rsh_divrem_hensel_qr_1_1(struct speed_params *s);
+double speed_mpn_rsh_divrem_hensel_qr_1_2(struct speed_params *s);
+double speed_mpn_divrem_hensel_rsh_qr_1(struct speed_params *s);
+double speed_mpn_divrem_1(struct speed_params *s);
+double speed_mpn_divrem_1f(struct speed_params *s);
+double speed_mpn_divrem_1c(struct speed_params *s);
+double speed_mpn_divrem_1cf(struct speed_params *s);
+double speed_mpn_divrem_1_div(struct speed_params *s);
+double speed_mpn_divrem_1f_div(struct speed_params *s);
+double speed_mpn_divrem_1_inv(struct speed_params *s);
+double speed_mpn_divrem_1f_inv(struct speed_params *s);
+double speed_mpn_divrem_2(struct speed_params *s);
+double speed_mpn_divrem_2_div(struct speed_params *s);
+double speed_mpn_divrem_2_inv(struct speed_params *s);
+double speed_mpn_double(struct speed_params *s);
+double speed_mpn_half(struct speed_params *s);
+double speed_mpn_fib2_ui(struct speed_params *s);
 double speed_mpn_matrix22_mul (struct speed_params *);
 double speed_mpn_hgcd (struct speed_params *);
 double speed_mpn_hgcd_lehmer (struct speed_params *);
@@ -235,136 +235,136 @@ double speed_mpn_gcdext_double (struct speed_params *);
 double speed_mpn_gcdext_one_double (struct speed_params *);
 double speed_mpn_gcdext_one_single (struct speed_params *);
 double speed_mpn_gcdext_single (struct speed_params *);
-double speed_mpn_get_str _PROTO ((struct speed_params *s));
-double speed_mpn_hamdist _PROTO ((struct speed_params *s));
-double speed_mpn_ior_n _PROTO ((struct speed_params *s));
-double speed_mpn_iorn_n _PROTO ((struct speed_params *s));
-double speed_mpn_jacobi_base _PROTO ((struct speed_params *s));
-double speed_mpn_jacobi_base_1 _PROTO ((struct speed_params *s));
-double speed_mpn_jacobi_base_2 _PROTO ((struct speed_params *s));
-double speed_mpn_jacobi_base_3 _PROTO ((struct speed_params *s));
-double speed_mpn_jacobi_base_4 _PROTO ((struct speed_params *s));
-double speed_mpn_kara_mul_n _PROTO ((struct speed_params *s));
-double speed_mpn_kara_sqr_n _PROTO ((struct speed_params *s));
-double speed_mpn_karaadd _PROTO ((struct speed_params *s));
-double speed_mpn_karasub _PROTO ((struct speed_params *s));
-double speed_mpn_lshift _PROTO ((struct speed_params *s));
-double speed_mpn_lshift1 _PROTO ((struct speed_params *s));
-double speed_mpn_lshift2 _PROTO ((struct speed_params *s));
-double speed_mpn_lshiftc _PROTO ((struct speed_params *s));
-double speed_mpn_mod_1 _PROTO ((struct speed_params *s));
-double speed_mpn_mod_1_1 _PROTO ((struct speed_params *s));
-double speed_mpn_mod_1_2 _PROTO ((struct speed_params *s));
-double speed_mpn_mod_1_3 _PROTO ((struct speed_params *s));
-double speed_mpn_mod_1_k _PROTO ((struct speed_params *s));
-double speed_mpn_mod_1c _PROTO ((struct speed_params *s));
-double speed_mpn_mod_1_div _PROTO ((struct speed_params *s));
-double speed_mpn_mod_1_inv _PROTO ((struct speed_params *s));
-double speed_mpn_mod_34lsub1 _PROTO ((struct speed_params *s));
-double speed_mpn_modexact_1_odd _PROTO ((struct speed_params *s));
-double speed_mpn_modexact_1c_odd _PROTO ((struct speed_params *s));
-double speed_mpn_mul_1 _PROTO ((struct speed_params *s));
-double speed_mpn_mul_1_inplace _PROTO ((struct speed_params *s));
-double speed_mpn_mul_2 _PROTO ((struct speed_params *s));
-double speed_mpn_mul_basecase _PROTO ((struct speed_params *s));
-double speed_mpn_mul_fft_main _PROTO ((struct speed_params *s));
-double speed_mpn_sqr_fft_main _PROTO ((struct speed_params *s));
-double speed_mpn_mul_n _PROTO ((struct speed_params *s));
-double speed_mpn_mul_n_sqr _PROTO ((struct speed_params *s));
-double speed_mpn_mullow_n _PROTO ((struct speed_params *s));
-double speed_mpn_mulhigh_n _PROTO ((struct speed_params *s));
-double speed_mpn_mulmod_2expm1 _PROTO ((struct speed_params *s));
-double speed_mpn_mulmod_2expp1_basecase _PROTO ((struct speed_params *s));
-double speed_mpn_mullow_n_basecase _PROTO ((struct speed_params *s));
-double speed_mpn_mulmid _PROTO ((struct speed_params *s));
-double speed_mpn_mulmid_basecase _PROTO ((struct speed_params *s));
-double speed_mpn_mulmid_n _PROTO ((struct speed_params *s));
-double speed_mpn_toom42_mulmid _PROTO ((struct speed_params *s));
-double speed_mpn_nand_n _PROTO ((struct speed_params *s));
-double speed_mpn_nior_n _PROTO ((struct speed_params *s));
-double speed_mpn_popcount _PROTO ((struct speed_params *s));
-double speed_mpn_preinv_divrem_1 _PROTO ((struct speed_params *s));
-double speed_mpn_preinv_divrem_1f _PROTO ((struct speed_params *s));
-double speed_mpn_preinv_mod_1 _PROTO ((struct speed_params *s));
+double speed_mpn_get_str(struct speed_params *s);
+double speed_mpn_hamdist(struct speed_params *s);
+double speed_mpn_ior_n(struct speed_params *s);
+double speed_mpn_iorn_n(struct speed_params *s);
+double speed_mpn_jacobi_base(struct speed_params *s);
+double speed_mpn_jacobi_base_1(struct speed_params *s);
+double speed_mpn_jacobi_base_2(struct speed_params *s);
+double speed_mpn_jacobi_base_3(struct speed_params *s);
+double speed_mpn_jacobi_base_4(struct speed_params *s);
+double speed_mpn_kara_mul_n(struct speed_params *s);
+double speed_mpn_kara_sqr_n(struct speed_params *s);
+double speed_mpn_karaadd(struct speed_params *s);
+double speed_mpn_karasub(struct speed_params *s);
+double speed_mpn_lshift(struct speed_params *s);
+double speed_mpn_lshift1(struct speed_params *s);
+double speed_mpn_lshift2(struct speed_params *s);
+double speed_mpn_lshiftc(struct speed_params *s);
+double speed_mpn_mod_1(struct speed_params *s);
+double speed_mpn_mod_1_1(struct speed_params *s);
+double speed_mpn_mod_1_2(struct speed_params *s);
+double speed_mpn_mod_1_3(struct speed_params *s);
+double speed_mpn_mod_1_k(struct speed_params *s);
+double speed_mpn_mod_1c(struct speed_params *s);
+double speed_mpn_mod_1_div(struct speed_params *s);
+double speed_mpn_mod_1_inv(struct speed_params *s);
+double speed_mpn_mod_34lsub1(struct speed_params *s);
+double speed_mpn_modexact_1_odd(struct speed_params *s);
+double speed_mpn_modexact_1c_odd(struct speed_params *s);
+double speed_mpn_mul_1(struct speed_params *s);
+double speed_mpn_mul_1_inplace(struct speed_params *s);
+double speed_mpn_mul_2(struct speed_params *s);
+double speed_mpn_mul_basecase(struct speed_params *s);
+double speed_mpn_mul_fft_main(struct speed_params *s);
+double speed_mpn_sqr_fft_main(struct speed_params *s);
+double speed_mpn_mul_n(struct speed_params *s);
+double speed_mpn_mul_n_sqr(struct speed_params *s);
+double speed_mpn_mullow_n(struct speed_params *s);
+double speed_mpn_mulhigh_n(struct speed_params *s);
+double speed_mpn_mulmod_2expm1(struct speed_params *s);
+double speed_mpn_mulmod_2expp1_basecase(struct speed_params *s);
+double speed_mpn_mullow_n_basecase(struct speed_params *s);
+double speed_mpn_mulmid(struct speed_params *s);
+double speed_mpn_mulmid_basecase(struct speed_params *s);
+double speed_mpn_mulmid_n(struct speed_params *s);
+double speed_mpn_toom42_mulmid(struct speed_params *s);
+double speed_mpn_nand_n(struct speed_params *s);
+double speed_mpn_nior_n(struct speed_params *s);
+double speed_mpn_popcount(struct speed_params *s);
+double speed_mpn_preinv_divrem_1(struct speed_params *s);
+double speed_mpn_preinv_divrem_1f(struct speed_params *s);
+double speed_mpn_preinv_mod_1(struct speed_params *s);
 double speed_mpn_binvert (struct speed_params *);
 double speed_mpn_redc_1 (struct speed_params *);
 double speed_mpn_redc_2 (struct speed_params *);
 double speed_mpn_redc_n (struct speed_params *);
-double speed_mpn_rsh1add_n _PROTO ((struct speed_params *s));
-double speed_mpn_rsh1sub_n _PROTO ((struct speed_params *s));
-double speed_mpn_rshift _PROTO ((struct speed_params *s));
-double speed_mpn_rshift1 _PROTO ((struct speed_params *s));
-double speed_mpn_rshift2 _PROTO ((struct speed_params *s));
-double speed_mpn_set_str _PROTO ((struct speed_params *s));
-double speed_mpn_set_str_basecase _PROTO ((struct speed_params *s));
-double speed_mpn_set_str_subquad _PROTO ((struct speed_params *s));
-double speed_mpn_sqr_basecase _PROTO ((struct speed_params *s));
-double speed_mpn_sqr_diagonal _PROTO ((struct speed_params *s));
-double speed_mpn_sqr _PROTO ((struct speed_params *s));
-double speed_mpn_sqrtrem _PROTO ((struct speed_params *s));
-double speed_mpn_rootrem _PROTO ((struct speed_params *s));
-double speed_mpn_sub_n _PROTO ((struct speed_params *s));
-double speed_mpn_sublsh1_n _PROTO ((struct speed_params *s));
-double speed_mpn_submul_1 _PROTO ((struct speed_params *s));
-double speed_mpn_toom3_mul_n _PROTO ((struct speed_params *s));
-double speed_mpn_toom4_mul_n _PROTO ((struct speed_params *s));
-double speed_mpn_toom8h_mul _PROTO ((struct speed_params *s));
-double speed_mpn_toom3_sqr_n _PROTO ((struct speed_params *s));
-double speed_mpn_toom4_sqr_n _PROTO ((struct speed_params *s));
-double speed_mpn_toom8_sqr_n _PROTO ((struct speed_params *s));
-double speed_mpn_udiv_qrnnd _PROTO ((struct speed_params *s));
-double speed_mpn_udiv_qrnnd_r _PROTO ((struct speed_params *s));
-double speed_mpn_umul_ppmm _PROTO ((struct speed_params *s));
-double speed_mpn_umul_ppmm_r _PROTO ((struct speed_params *s));
-double speed_mpn_xnor_n _PROTO ((struct speed_params *s));
-double speed_mpn_xor_n _PROTO ((struct speed_params *s));
-double speed_MPN_ZERO _PROTO ((struct speed_params *s));
-double speed_mpn_store _PROTO ((struct speed_params *s));
+double speed_mpn_rsh1add_n(struct speed_params *s);
+double speed_mpn_rsh1sub_n(struct speed_params *s);
+double speed_mpn_rshift(struct speed_params *s);
+double speed_mpn_rshift1(struct speed_params *s);
+double speed_mpn_rshift2(struct speed_params *s);
+double speed_mpn_set_str(struct speed_params *s);
+double speed_mpn_set_str_basecase(struct speed_params *s);
+double speed_mpn_set_str_subquad(struct speed_params *s);
+double speed_mpn_sqr_basecase(struct speed_params *s);
+double speed_mpn_sqr_diagonal(struct speed_params *s);
+double speed_mpn_sqr(struct speed_params *s);
+double speed_mpn_sqrtrem(struct speed_params *s);
+double speed_mpn_rootrem(struct speed_params *s);
+double speed_mpn_sub_n(struct speed_params *s);
+double speed_mpn_sublsh1_n(struct speed_params *s);
+double speed_mpn_submul_1(struct speed_params *s);
+double speed_mpn_toom3_mul_n(struct speed_params *s);
+double speed_mpn_toom4_mul_n(struct speed_params *s);
+double speed_mpn_toom8h_mul(struct speed_params *s);
+double speed_mpn_toom3_sqr_n(struct speed_params *s);
+double speed_mpn_toom4_sqr_n(struct speed_params *s);
+double speed_mpn_toom8_sqr_n(struct speed_params *s);
+double speed_mpn_udiv_qrnnd(struct speed_params *s);
+double speed_mpn_udiv_qrnnd_r(struct speed_params *s);
+double speed_mpn_umul_ppmm(struct speed_params *s);
+double speed_mpn_umul_ppmm_r(struct speed_params *s);
+double speed_mpn_xnor_n(struct speed_params *s);
+double speed_mpn_xor_n(struct speed_params *s);
+double speed_MPN_ZERO(struct speed_params *s);
+double speed_mpn_store(struct speed_params *s);
 
-double speed_mpq_init_clear _PROTO ((struct speed_params *s));
+double speed_mpq_init_clear(struct speed_params *s);
 
-double speed_mpz_add _PROTO ((struct speed_params *s));
-double speed_mpz_bin_uiui _PROTO ((struct speed_params *s));
-double speed_mpz_fac_ui _PROTO ((struct speed_params *s));
-double speed_mpz_fac_ui_small _PROTO ((struct speed_params *s));
-double speed_mpz_fac_ui_large _PROTO ((struct speed_params *s));
-double speed_mpz_fib_ui _PROTO ((struct speed_params *s));
-double speed_mpz_fib2_ui _PROTO ((struct speed_params *s));
-double speed_mpz_init_clear _PROTO ((struct speed_params *s));
-double speed_mpz_init_realloc_clear _PROTO ((struct speed_params *s));
-double speed_mpz_jacobi _PROTO ((struct speed_params *s));
-double speed_mpz_lucnum_ui _PROTO ((struct speed_params *s));
-double speed_mpz_lucnum2_ui _PROTO ((struct speed_params *s));
-double speed_mpz_mod _PROTO ((struct speed_params *s));
-double speed_mpz_powm _PROTO ((struct speed_params *s));
-double speed_mpz_powm_mod _PROTO ((struct speed_params *s));
-double speed_mpz_powm_redc _PROTO ((struct speed_params *s));
-double speed_mpz_powm_ui _PROTO ((struct speed_params *s));
-double speed_mpz_urandomb _PROTO ((struct speed_params *s));
+double speed_mpz_add(struct speed_params *s);
+double speed_mpz_bin_uiui(struct speed_params *s);
+double speed_mpz_fac_ui(struct speed_params *s);
+double speed_mpz_fac_ui_small(struct speed_params *s);
+double speed_mpz_fac_ui_large(struct speed_params *s);
+double speed_mpz_fib_ui(struct speed_params *s);
+double speed_mpz_fib2_ui(struct speed_params *s);
+double speed_mpz_init_clear(struct speed_params *s);
+double speed_mpz_init_realloc_clear(struct speed_params *s);
+double speed_mpz_jacobi(struct speed_params *s);
+double speed_mpz_lucnum_ui(struct speed_params *s);
+double speed_mpz_lucnum2_ui(struct speed_params *s);
+double speed_mpz_mod(struct speed_params *s);
+double speed_mpz_powm(struct speed_params *s);
+double speed_mpz_powm_mod(struct speed_params *s);
+double speed_mpz_powm_redc(struct speed_params *s);
+double speed_mpz_powm_ui(struct speed_params *s);
+double speed_mpz_urandomb(struct speed_params *s);
 
-double speed_gmp_randseed _PROTO ((struct speed_params *s));
-double speed_gmp_randseed_ui _PROTO ((struct speed_params *s));
+double speed_gmp_randseed(struct speed_params *s);
+double speed_gmp_randseed_ui(struct speed_params *s);
 
-double speed_noop _PROTO ((struct speed_params *s));
-double speed_noop_wxs _PROTO ((struct speed_params *s));
-double speed_noop_wxys _PROTO ((struct speed_params *s));
+double speed_noop(struct speed_params *s);
+double speed_noop_wxs(struct speed_params *s);
+double speed_noop_wxys(struct speed_params *s);
 
-double speed_operator_div _PROTO ((struct speed_params *s));
-double speed_operator_mod _PROTO ((struct speed_params *s));
+double speed_operator_div(struct speed_params *s);
+double speed_operator_mod(struct speed_params *s);
 
-double speed_udiv_qrnnd _PROTO ((struct speed_params *s));
-double speed_udiv_qrnnd_preinv1 _PROTO ((struct speed_params *s));
-double speed_udiv_qrnnd_preinv2 _PROTO ((struct speed_params *s));
-double speed_udiv_qrnnd_c _PROTO ((struct speed_params *s));
-double speed_umul_ppmm _PROTO ((struct speed_params *s));
+double speed_udiv_qrnnd(struct speed_params *s);
+double speed_udiv_qrnnd_preinv1(struct speed_params *s);
+double speed_udiv_qrnnd_preinv2(struct speed_params *s);
+double speed_udiv_qrnnd_c(struct speed_params *s);
+double speed_umul_ppmm(struct speed_params *s);
 
 
 /* Prototypes for other routines */
 
 /* low 32-bits in p[0], high 32-bits in p[1] */
-void speed_cyclecounter _PROTO ((unsigned p[2]));
+void speed_cyclecounter(unsigned p[2]);
 
-void mftb_function _PROTO ((unsigned p[2]));
+void mftb_function(unsigned p[2]);
 
 /* In i386 gcc -fPIC, ebx is a fixed register and can't be declared a dummy
    output or a clobber for the cpuid, hence an explicit save and restore.  A
@@ -405,55 +405,43 @@ void mftb_function _PROTO ((unsigned p[2]));
 __inline void speed_cyclecounter(unsigned long p[2]) { *(unsigned long long*)p = __rdtsc(); }
 #endif
 
-double speed_cyclecounter_diff _PROTO ((const unsigned end[2],
-					const unsigned start[2]));
-int gettimeofday_microseconds_p _PROTO ((void));
-int getrusage_microseconds_p _PROTO ((void));
-int cycles_works_p _PROTO ((void));
-long clk_tck _PROTO ((void));
-double freq_measure _PROTO ((const char *, double (*)(void)));
+double speed_cyclecounter_diff(const unsigned end[2], const unsigned start[2]);
+int gettimeofday_microseconds_p(void);
+int getrusage_microseconds_p(void);
+int cycles_works_p(void);
+long clk_tck(void);
+double freq_measure(const char *, double (*)(void));
 
-int double_cmp_ptr _PROTO ((const double *p, const double *q));
-void pentium_wbinvd _PROTO ((void));
-typedef int (*qsort_function_t) _PROTO ((const void *, const void *));
+int double_cmp_ptr(const double *p, const double *q);
+void pentium_wbinvd(void);
+typedef int (*qsort_function_t)(const void *, const void *);
 
-void noop _PROTO ((void));
-void noop_1 _PROTO ((mp_limb_t n));
-void noop_wxs _PROTO ((mp_ptr wp, mp_srcptr xp, mp_size_t size));
-void noop_wxys _PROTO ((mp_ptr wp, mp_srcptr xp, mp_srcptr yp,
-			mp_size_t size));
-void mpn_cache_fill _PROTO ((mp_srcptr ptr, mp_size_t size));
-void mpn_cache_fill_dummy _PROTO ((mp_limb_t n));
-void speed_cache_fill _PROTO ((struct speed_params *s));
-void speed_operand_src _PROTO ((struct speed_params *s,
-				mp_ptr ptr, mp_size_t size));
-void speed_operand_dst _PROTO ((struct speed_params *s,
-				mp_ptr ptr, mp_size_t size));
+void noop(void);
+void noop_1(mp_limb_t n);
+void noop_wxs(mp_ptr wp, mp_srcptr xp, mp_size_t size);
+void noop_wxys(mp_ptr wp, mp_srcptr xp, mp_srcptr yp, mp_size_t size);
+void mpn_cache_fill(mp_srcptr ptr, mp_size_t size);
+void mpn_cache_fill_dummy(mp_limb_t n);
+void speed_cache_fill(struct speed_params *s);
+void speed_operand_src(struct speed_params *s, mp_ptr ptr, mp_size_t size);
+void speed_operand_dst(struct speed_params *s, mp_ptr ptr, mp_size_t size);
 
 extern int  speed_option_addrs;
 extern int  speed_option_verbose;
-void speed_option_set _PROTO((const char *s));
+void speed_option_set(const char *s);
 
-mp_limb_t mpn_divrem_1_div _PROTO ((mp_ptr qp, mp_size_t xsize,
-				    mp_srcptr ap, mp_size_t size,
-				    mp_limb_t d));
-mp_limb_t mpn_divrem_1_inv _PROTO ((mp_ptr qp, mp_size_t xsize,
-				    mp_srcptr ap, mp_size_t size,
-				    mp_limb_t d));
-mp_limb_t mpn_divrem_2_div _PROTO ((mp_ptr qp, mp_size_t qxn,
-				    mp_ptr np, mp_size_t nsize,
-				    mp_srcptr dp));
-mp_limb_t mpn_divrem_2_inv _PROTO ((mp_ptr qp, mp_size_t qxn,
-				    mp_ptr np, mp_size_t nsize,
-				    mp_srcptr dp));
+mp_limb_t mpn_divrem_1_div(mp_ptr qp, mp_size_t xsize, mp_srcptr ap, mp_size_t size, mp_limb_t d);
+mp_limb_t mpn_divrem_1_inv(mp_ptr qp, mp_size_t xsize, mp_srcptr ap, mp_size_t size, mp_limb_t d);
+mp_limb_t mpn_divrem_2_div(mp_ptr qp, mp_size_t qxn, mp_ptr np, mp_size_t nsize, mp_srcptr dp);
+mp_limb_t mpn_divrem_2_inv(mp_ptr qp, mp_size_t qxn, mp_ptr np, mp_size_t nsize, mp_srcptr dp);
 
-int mpn_jacobi_base_1 _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1));
-int mpn_jacobi_base_2 _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1));
-int mpn_jacobi_base_3 _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1));
-int mpn_jacobi_base_4 _PROTO ((mp_limb_t a, mp_limb_t b, int result_bit1));
+int mpn_jacobi_base_1(mp_limb_t a, mp_limb_t b, int result_bit1);
+int mpn_jacobi_base_2(mp_limb_t a, mp_limb_t b, int result_bit1);
+int mpn_jacobi_base_3(mp_limb_t a, mp_limb_t b, int result_bit1);
+int mpn_jacobi_base_4(mp_limb_t a, mp_limb_t b, int result_bit1);
 
-mp_limb_t mpn_mod_1_div _PROTO ((mp_srcptr ap, mp_size_t size, mp_limb_t d));
-mp_limb_t mpn_mod_1_inv _PROTO ((mp_srcptr ap, mp_size_t size, mp_limb_t d));
+mp_limb_t mpn_mod_1_div(mp_srcptr ap, mp_size_t size, mp_limb_t d);
+mp_limb_t mpn_mod_1_inv(mp_srcptr ap, mp_size_t size, mp_limb_t d);
 
 mp_size_t mpn_gcdext_one_double (mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_size_t, mp_ptr, mp_size_t);
 mp_size_t mpn_gcdext_one_single (mp_ptr, mp_ptr, mp_size_t *, mp_ptr, mp_size_t, mp_ptr, mp_size_t);
@@ -471,38 +459,32 @@ mp_size_t mpn_hgcd_reduce_1_itch (mp_size_t, mp_size_t);
 mp_size_t mpn_hgcd_reduce_2 (struct hgcd_matrix *, mp_ptr, mp_ptr, mp_size_t, mp_size_t, mp_ptr);
 mp_size_t mpn_hgcd_reduce_2_itch (mp_size_t, mp_size_t);
 
-mp_size_t mpn_set_str_basecase _PROTO ((mp_ptr, const unsigned char *, size_t, int));
-mp_size_t mpn_set_str_subquad _PROTO ((mp_ptr, const unsigned char *, size_t, int));
+mp_size_t mpn_set_str_basecase(mp_ptr, const unsigned char *, size_t, int);
+mp_size_t mpn_set_str_subquad(mp_ptr, const unsigned char *, size_t, int);
 
-void mpn_toom3_mul_n_open _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,
-				   mp_ptr));
-void mpn_toom4_mul_n_open _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
-void mpn_toom8h_mul_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
+void mpn_toom3_mul_n_open(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr);
+void mpn_toom4_mul_n_open(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t);
+void mpn_toom8h_mul_open(mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t);
 
-void mpn_toom3_sqr_n_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
-void mpn_toom4_sqr_n_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
-void mpn_toom8_sqr_n_open _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
+void mpn_toom3_sqr_n_open(mp_ptr, mp_srcptr, mp_size_t, mp_ptr);
+void mpn_toom4_sqr_n_open(mp_ptr, mp_srcptr, mp_size_t, mp_ptr);
+void mpn_toom8_sqr_n_open(mp_ptr, mp_srcptr, mp_size_t, mp_ptr);
 
-void mpn_toom3_mul_n_mpn _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t,
-				  mp_ptr));
-void mpn_toom4_mul_n_mpn _PROTO ((mp_ptr, mp_srcptr, mp_srcptr, mp_size_t));
-void mpn_toom8h_mul_mpn _PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
+void mpn_toom3_mul_n_mpn(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t, mp_ptr);
+void mpn_toom4_mul_n_mpn(mp_ptr, mp_srcptr, mp_srcptr, mp_size_t);
+void mpn_toom8h_mul_mpn(mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t);
 
-void mpn_toom3_sqr_n_mpn _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
-void mpn_toom4_sqr_n_mpn _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
-void mpn_toom8_sqr_n_mpn _PROTO((mp_ptr, mp_srcptr, mp_size_t, mp_ptr));
+void mpn_toom3_sqr_n_mpn(mp_ptr, mp_srcptr, mp_size_t, mp_ptr);
+void mpn_toom4_sqr_n_mpn(mp_ptr, mp_srcptr, mp_size_t, mp_ptr);
+void mpn_toom8_sqr_n_mpn(mp_ptr, mp_srcptr, mp_size_t, mp_ptr);
 
-void mpz_powm_mod _PROTO ((mpz_ptr res, mpz_srcptr base, mpz_srcptr e,
-			   mpz_srcptr mod));
-void mpz_powm_redc _PROTO ((mpz_ptr res, mpz_srcptr base, mpz_srcptr e,
-			    mpz_srcptr mod));
-void redc _PROTO ((mp_ptr cp, mp_ptr tp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim));
-void mpz_fac_ui_small _PROTO ((mpz_ptr,unsigned long));
-void mpz_fac_ui_large _PROTO ((mpz_ptr,unsigned long));
+void mpz_powm_mod(mpz_ptr res, mpz_srcptr base, mpz_srcptr e, mpz_srcptr mod);
+void mpz_powm_redc(mpz_ptr res, mpz_srcptr base, mpz_srcptr e, mpz_srcptr mod);
+void redc(mp_ptr cp, mp_ptr tp, mp_srcptr mp, mp_size_t n, mp_limb_t Nprim);
+void mpz_fac_ui_small(mpz_ptr,unsigned long);
+void mpz_fac_ui_large(mpz_ptr,unsigned long);
 
-int speed_routine_count_zeros_setup _PROTO ((struct speed_params *s,
-					     mp_ptr xp, int leading,
-					     int zero));
+int speed_routine_count_zeros_setup(struct speed_params *s, mp_ptr xp, int leading, int zero);
 
 
 /* "get" is called repeatedly until it ticks over, just in case on a fast
