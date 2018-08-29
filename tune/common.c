@@ -123,7 +123,7 @@ double_cmp_ptr (const double *p, const double *q)
    s->r, -1.0 should be returned.  See the various base routines below.  */
 
 double
-speed_measure (double (*fun) _PROTO ((struct speed_params *s)),
+speed_measure (double (*fun)(struct speed_params *s),
                struct speed_params *s)
 {
 #define TOLERANCE    1.05  /* 0.5% */

@@ -30,7 +30,7 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "longlong.h"
 
-static int isprime _PROTO ((mpir_ui t));
+static int isprime(mpir_ui t);
 
 
 /* MPN_MOD_OR_MODEXACT_1_ODD can be used instead of mpn_mod_1 for the trial

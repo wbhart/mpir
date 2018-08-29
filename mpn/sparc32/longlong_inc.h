@@ -185,7 +185,7 @@ MA 02110-1301, USA. */
     (q) = __MPN(udiv_qrnnd) (&__r, (n1), (n0), (d));			\
     (r) = __r;								\
   } while (0)
-extern UWtype __MPN(udiv_qrnnd) _PROTO ((UWtype *, UWtype, UWtype, UWtype));
+extern UWtype __MPN(udiv_qrnnd)(UWtype *, UWtype, UWtype, UWtype);
 #endif /* LONGLONG_STANDALONE */
 #endif /* udiv_qrnnd */
 

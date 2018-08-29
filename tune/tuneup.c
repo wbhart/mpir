@@ -378,12 +378,10 @@ analyze_dat (int final)
 
 /* Measuring for recompiled mpn/generic/divrem_1.c and mpn/generic/mod_1.c */
 
-mp_limb_t mpn_divrem_1_tune _PROTO ((mp_ptr qp, mp_size_t xsize,
-                                    mp_srcptr ap, mp_size_t size,
-                                    mp_limb_t d));
-mp_limb_t mpn_mod_1_tune _PROTO ((mp_srcptr ap, mp_size_t size, mp_limb_t d));
+mp_limb_t mpn_divrem_1_tune(mp_ptr qp, mp_size_t xsize, mp_srcptr ap, mp_size_t size, mp_limb_t d);
+mp_limb_t mpn_mod_1_tune(mp_srcptr ap, mp_size_t size, mp_limb_t d);
 
-void mpz_fac_ui_tune _PROTO ((mpz_ptr, mpir_ui));
+void mpz_fac_ui_tune(mpz_ptr, mpir_ui);
 
 double
 speed_mpn_mod_1_tune (struct speed_params *s)
@@ -1312,7 +1310,7 @@ tune_gcdext_dc (gmp_randstate_t rands)
   param.stop_factor = 2.0;
 
 
-double (*tuned_speed_mpn_divrem_1) _PROTO ((struct speed_params *s));
+double (*tuned_speed_mpn_divrem_1)(struct speed_params *s);
 
 void
 tune_divrem_1 (gmp_randstate_t rands)
@@ -1366,7 +1364,7 @@ tune_divrem_1 (gmp_randstate_t rands)
 }
 
 
-double (*tuned_speed_mpn_mod_1) _PROTO ((struct speed_params *s));
+double (*tuned_speed_mpn_mod_1)(struct speed_params *s);
 
 void
 tune_mod_1 (gmp_randstate_t rands)

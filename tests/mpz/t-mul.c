@@ -28,10 +28,10 @@ MA 02110-1301, USA. */
 #include "longlong.h"
 #include "tests.h"
 
-void debug_mp _PROTO ((mpz_t));
-static void ref_mpn_mul _PROTO ((mp_ptr,mp_srcptr,mp_size_t,mp_srcptr,mp_size_t));
-static void ref_mpz_mul _PROTO ((mpz_t, const mpz_t, const mpz_t));
-void dump_abort _PROTO ((int, char *, mpz_t, mpz_t, mpz_t, mpz_t));
+void debug_mp(mpz_t);
+static void ref_mpn_mul(mp_ptr,mp_srcptr,mp_size_t,mp_srcptr,mp_size_t);
+static void ref_mpz_mul(mpz_t, const mpz_t, const mpz_t);
+void dump_abort(int, char *, mpz_t, mpz_t, mpz_t, mpz_t);
 
 #define FFT_MIN_BITSIZE 100000
 
@@ -173,7 +173,7 @@ ref_mpz_mul (mpz_t w, const mpz_t u, const mpz_t v)
   __GMP_FREE_FUNC_LIMBS (wp, talloc);
 }
 
-static void mul_basecase __GMP_PROTO ((mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t));
+static void mul_basecase(mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t);
 
 #define TOOM3_THRESHOLD (MAX (MUL_TOOM3_THRESHOLD, SQR_TOOM3_THRESHOLD))
 #define FFT_THRESHOLD (MAX (MUL_FFT_FULL_THRESHOLD, SQR_FFT_FULL_THRESHOLD))

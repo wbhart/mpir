@@ -287,7 +287,7 @@ struct each_t  fun = { "Fun" };
 
 #define SRC_SIZE(n)  ((n) == 1 && tr->size2 ? size2 : size)
 
-void validate_fail _PROTO ((void));
+void validate_fail(void);
 
 
 #if HAVE_TRY_NEW_C
@@ -295,7 +295,7 @@ void validate_fail _PROTO ((void));
 #endif
 
 
-typedef mp_limb_t (*tryfun_t) _PROTO ((ANYARGS));
+typedef mp_limb_t (*tryfun_t)(ANYARGS);
 
 struct try_t {
   char  retval;
@@ -373,7 +373,7 @@ struct try_t {
   tryfun_t    reference;
   const char  *reference_name;
 
-  void        (*validate) _PROTO ((void));
+  void        (*validate)(void);
   const char  *validate_name;
 };
 

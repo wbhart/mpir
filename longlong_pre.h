@@ -43,14 +43,6 @@ MA 02110-1301, USA. */
 #define __MPN(x) __##x
 #endif
 
-#ifndef _PROTO
-#if (__STDC__-0) || defined (__cplusplus) || defined( _MSC_VER )
-#define _PROTO(x) x
-#else
-#define _PROTO(x) ()
-#endif
-#endif
-
 /* Define auxiliary asm macros.
 
    1) umul_ppmm(high_prod, low_prod, multipler, multiplicand) multiplies two
