@@ -416,6 +416,7 @@ postbuild "$(TargetPath)" 13
     <ClCompile Include="..\..\..\mpz\oddfac_1.c" />
     <ClCompile Include="..\..\..\mpz\out_raw.c" />
     <ClCompile Include="..\..\..\mpz\out_str.c" />
+    <ClCompile Include="..\..\..\mpz\perfpow.c" />
     <ClCompile Include="..\..\..\mpz\perfsqr.c" />
     <ClCompile Include="..\..\..\mpz\popcount.c" />
     <ClCompile Include="..\..\..\mpz\pow_ui.c" />
