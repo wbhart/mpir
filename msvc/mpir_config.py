@@ -573,8 +573,8 @@ if debug:
     for d in dl:
       for root, dirs, files in walk(r + d):
         relp = relpath(root, r)  # path relative to mpir root directory
-        if '.svn' in dirs:
-          dirs.remove('.svn')            # ignore SVN directories
+        if '.git' in dirs:
+          dirs.remove('.git')            # ignore git directories
         if d == '' or root.endswith(build_vc):
           for d in reversed(dirs):       # don't scan build.vc<nn> subdirectories
             dirs.remove(d)

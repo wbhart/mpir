@@ -1,7 +1,7 @@
 #
 # Python script for running GMP tests
 #
-# Run this from the build.vc11\mpir-tests directory
+# Run this from the msvc\vs15\mpir-tests directory
 
 from __future__ import print_function
 import os
@@ -18,7 +18,7 @@ if cw != '':
   os.chdir(cw)
 
 try:
-  fn = r'..\..\build.vc\output_params.bat'
+  fn = r'..\..\output_params.bat'
   f = open(fn)
   par = f.readlines()
   f.close()

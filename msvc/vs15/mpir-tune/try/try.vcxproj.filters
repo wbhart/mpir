@@ -32,15 +32,15 @@
     <ClCompile Include="..\..\..\tests\devel\try.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\build.vc\getopt.c">
+    <ClCompile Include="..\..\..\getopt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\build.vc\getopt.h">
+    <ClInclude Include="..\..\..\getopt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\build.vc\unistd.h">
+    <ClInclude Include="..\..\..\unistd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

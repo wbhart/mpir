@@ -11,7 +11,7 @@ set str=%str:~1%
 set str2=%str:~0,4%
 if "%str2%" NEQ "msvc" goto dele
 
-rem we now have: build.vc<nn>\<project_directory>\<win32|x64>\<debug|release>\mpir.<lib|dll>
+rem we now have: msvc\vs<nn>\<project_directory>\<win32|x64>\<debug|release>\mpir.<lib|dll>
 rem extract: project_directory, platform (plat=<win32|x64>), configuration (conf=<debug|release>) and file name  
 
 set file=

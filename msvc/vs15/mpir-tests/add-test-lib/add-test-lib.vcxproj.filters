@@ -37,10 +37,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\tests\tests.h">
+    <ClInclude Include="..\..\..\..\tests\tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\build.vc\getopt.h">
+    <ClInclude Include="..\..\..\getopt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

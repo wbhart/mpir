@@ -147,8 +147,8 @@ check_config $(Platform) $(Configuration) 17
     <ClCompile Include="..\..\..\..\tests\trace.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\build.vc\getopt.h" />
-    <ClInclude Include="..\..\..\tests\tests.h" />
+    <ClInclude Include="..\..\..\getopt.h" />
+    <ClInclude Include="..\..\..\..\tests\tests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
