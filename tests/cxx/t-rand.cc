@@ -126,6 +126,31 @@ check_mpf (void)
   }
 }
 
+/*check that get_randstate_t really returns the randstate_t underlying a gmp_randclass*/
+void
+check_randstate_t(void)
+{
+  /*seed gmp_randclass r using its method, and seed gmp_randclass s using get_randstate_t
+    if they both generate the same sequence, then gmp_randstate_t must be returning the
+    underlying randstate_t of s */
+  {
+    gmp_randclass r(gmp_randinit_default);
+    gmp_randclass s(gmp_randinit_default);
+    __gmp_randstate_struct s_state = *s.get_randstate_t();
+
+    r.seed(0xdeadbeef);
+    gmp_randseed_ui(&s_state, 0xdeadbeef);
+
+    bool res = true;
+    for (int i = 0; i < 100; ++i)
+    {
+      mpz_class n1 = r.get_z_bits(32);
+      mpz_class n2 = s.get_z_bits(32);
+      ASSERT_ALWAYS (n1 == n2);
+    }
+  }
+}
+
 
 int
 main (void)
@@ -135,6 +160,7 @@ main (void)
   check_randinit();
   check_mpz();
   check_mpf();
+  check_randstate_t();
 
   tests_end();
   return 0;
