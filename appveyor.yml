@@ -2,20 +2,9 @@ version: 1.0.{build}
 build:
   verbosity: minimal
   
+image: Visual Studio 2017
 environment:
   matrix:
-    - COMPILER: MinGW-w64
-      ABI: 32
-      LIB: --enable-static --disable-shared
-    - COMPILER: MinGW-w64
-      ABI: 32
-      LIB: --disable-static --enable-shared
-    - COMPILER: MinGW-w64
-      ABI: 64
-      LIB: --enable-static --disable-shared
-    - COMPILER: MinGW-w64
-      ABI: 64
-      LIB: --disable-static --enable-shared
     - BUILD_TYPE: Release
       COMPILER: MSVC15
       PLATFORM: x64
@@ -28,11 +17,23 @@ environment:
 #    - BUILD_TYPE: Debug
 #      COMPILER: MSVC15
 #      PLATFORM: Win32
+    - COMPILER: MinGW-w64
+      ABI: 32
+      LIB: --enable-static --disable-shared
+    - COMPILER: MinGW-w64
+      ABI: 32
+      LIB: --disable-static --enable-shared
+    - COMPILER: MinGW-w64
+      ABI: 64
+      LIB: --enable-static --disable-shared
+    - COMPILER: MinGW-w64
+      ABI: 64
+      LIB: --disable-static --enable-shared
  
 build_script:
   - if [%COMPILER%]==[MinGW-w64] mkdir bin && cd bin\ && appveyor DownloadFile http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe -fileName yasm.exe
   - if [%COMPILER%]==[MinGW-w64] C:\msys64\usr\bin\sh.exe --login /c/projects/mpir/.appveyor_msys_build.sh
-  - if [%COMPILER%]==[MSVC15] cd build.vc14
+  - if [%COMPILER%]==[MSVC15] cd msvc\vs17
   - if [%COMPILER%]==[MSVC15] msbuild.bat gc lib %PLATFORM% %BUILD_TYPE% +tests
 
 test_script:
