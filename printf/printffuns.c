@@ -39,7 +39,7 @@ MA 02110-1301, USA. */
 
 /* SunOS 4 stdio.h doesn't provide a prototype for this */
 #if ! HAVE_DECL_VFPRINTF
-int vfprintf _PROTO ((FILE *fp, const char *fmt, va_list ap));
+int vfprintf(FILE *fp, const char *fmt, va_list ap);
 #endif
 
 

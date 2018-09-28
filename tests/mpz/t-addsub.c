@@ -27,8 +27,8 @@ MA 02110-1301, USA. */
 #include "longlong.h"
 #include "tests.h"
 
-void debug_mp _PROTO ((mpz_t, int));
-void dump_abort _PROTO ((int, char *, mpz_t, mpz_t));
+void debug_mp(mpz_t, int);
+void dump_abort(int, char *, mpz_t, mpz_t);
 
 int
 main (int argc, char **argv)

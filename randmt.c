@@ -352,7 +352,7 @@ __gmp_randclear_mt (gmp_randstate_t rstate)
 		      sizeof (gmp_rand_mt_struct));
 }
 
-void __gmp_randiset_mt __GMP_PROTO ((gmp_randstate_ptr dst, gmp_randstate_srcptr src));
+void __gmp_randiset_mt(gmp_randstate_ptr dst, gmp_randstate_srcptr src);
 
 static const gmp_randfnptr_t Mersenne_Twister_Generator_Noseed = {
   NULL,

@@ -34,7 +34,7 @@ MA 02110-1301, USA. */
 #define EPSIZE SIZE
 
 
-void dump _PROTO ((mpq_t));
+void dump(mpq_t);
 
 void
 mpz_intrandom2 (mpz_ptr x, gmp_randstate_t rands, mp_size_t size)

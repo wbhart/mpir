@@ -244,7 +244,7 @@ randclear_lc (gmp_randstate_t rstate)
   (*__gmp_free_func) (p, sizeof (gmp_rand_lc_struct));
 }
 
-static void randiset_lc __GMP_PROTO ((gmp_randstate_ptr dst, gmp_randstate_srcptr src));
+static void randiset_lc(gmp_randstate_ptr dst, gmp_randstate_srcptr src);
 
 static const gmp_randfnptr_t Linear_Congruential_Generator = {
   randseed_lc,
