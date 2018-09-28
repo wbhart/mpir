@@ -1145,7 +1145,7 @@ __GMP_DECLSPEC mp_limb_t mpir_revbin(mp_limb_t in, mp_limb_t bits);
 __GMP_DECLSPEC mpir_si mpir_fft_adjust_limbs(mp_size_t limbs);
 
 #define mpir_fft_combine_bits __mpir_fft_combine_bits
-__GMP_DECLSPEC void mpir_fft_combine_bit(mp_ptr res, const mp_ptr * poly,
+__GMP_DECLSPEC void mpir_fft_combine_bits(mp_ptr res, const mp_ptr * poly,
                 long length, mp_bitcnt_t bits, mp_size_t output_limbs, mp_size_t total_limbs);
 
 #define mpir_fft_split_bits __mpir_fft_split_bits
