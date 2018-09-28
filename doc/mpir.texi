@@ -6849,6 +6849,18 @@ f = r.get_f();           // random number, 512 bits
 @end example
 @end deftypefun
 
+@deftypefun randstate_t gmp_randclass::get_randstate_t ()
+Get the underlying @code{randstate_t} from the object. This can be used to call a
+C function that doesn't have a C++ interface. For example, to check if an integer
+is prime,
+@example
+gmp_randclass r(gmp_randinit_mt);
+mpz_class p;
+// ... seed r and generate p ...
+is_prime = mpz_likely_prime_p(p.get_mpz_t(), r.get_randstate_t(), 0);
+@end example
+@end deftypefun
+
 
 
 @node C++ Interface Limitations,  , C++ Interface Random Numbers, C++ Class Interface

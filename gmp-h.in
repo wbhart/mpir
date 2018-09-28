@@ -314,6 +314,8 @@ typedef __gmp_const __mpf_struct *mpf_srcptr;
 typedef __mpf_struct *mpf_ptr;
 typedef __gmp_const __mpq_struct *mpq_srcptr;
 typedef __mpq_struct *mpq_ptr;
+typedef __gmp_const __gmp_randstate_struct *randstate_srcptr;
+typedef __gmp_randstate_struct *randstate_ptr;
 
 
 #if __GMP_LIBGMP_DLL
