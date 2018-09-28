@@ -52,9 +52,9 @@ main (void)
 #define EXPO 32
 #endif
 
-void dump_abort _PROTO ((char *name, mpf_t res1, mpf_t res2));
+void dump_abort(char *name, mpf_t res1, mpf_t res2);
 
-typedef void (*dss_func) _PROTO ((mpf_ptr, mpf_srcptr, mpf_srcptr));
+typedef void (*dss_func)(mpf_ptr, mpf_srcptr, mpf_srcptr);
 
 dss_func dss_funcs[] =
 {
@@ -66,7 +66,7 @@ char *dss_func_names[] =
   "mpf_div", "mpf_add", "mpf_mul", "mpf_sub",
 };
 
-typedef void (*dsi_func) _PROTO ((mpf_ptr, mpf_srcptr, mpir_ui));
+typedef void (*dsi_func)(mpf_ptr, mpf_srcptr, mpir_ui);
 
 dsi_func dsi_funcs[] =
 {
@@ -80,7 +80,7 @@ char *dsi_func_names[] =
   "mpf_mul_2exp", "mpf_div_2exp"
 };
 
-typedef void (*dis_func) _PROTO ((mpf_ptr, mpir_ui, mpf_srcptr));
+typedef void (*dis_func)(mpf_ptr, mpir_ui, mpf_srcptr);
 
 dis_func dis_funcs[] =
 {
@@ -206,9 +206,9 @@ dump_abort (char *name, mpf_t res1, mpf_t res2)
 }
 
 #if 0
-void mpf_abs		_PROTO ((mpf_ptr, mpf_srcptr));
-void mpf_sqrt		_PROTO ((mpf_ptr, mpf_srcptr));
-void mpf_neg		_PROTO ((mpf_ptr, mpf_srcptr));
+void mpf_abs		(mpf_ptr, mpf_srcptr);
+void mpf_sqrt		(mpf_ptr, mpf_srcptr);
+void mpf_neg		(mpf_ptr, mpf_srcptr);
 #endif
 
 #endif /* ! DLL_EXPORT */

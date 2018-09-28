@@ -2198,7 +2198,7 @@ gmp_mpn_functions="$extra_functions					   \
   toom_eval_dgr3_pm1 toom_eval_dgr3_pm2 toom_eval_pm1 toom_eval_pm2 \
   toom_eval_pm2exp toom_eval_pm2rexp toom_interpolate_16pts \
   toom8_sqr_n toom8h_mul toom_couple_handling sb_bdiv_q sb_bdiv_qr \
-  dc_bdiv_q_n dc_bdiv_q dc_bdiv_qr dc_bdiv_qr_n divexact zero $gmp_mpn_functions_optional"
+  dc_bdiv_q_n dc_bdiv_q dc_bdiv_qr dc_bdiv_qr_n divexact zero zero_p $gmp_mpn_functions_optional"
 
 # should be able to remove the mulfunc below
 define(GMP_MULFUNC_CHOICES,

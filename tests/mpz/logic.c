@@ -26,8 +26,8 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
-void dump_abort _PROTO (());
-void debug_mp _PROTO ((mpz_t, int));
+void dump_abort();
+void debug_mp(mpz_t, int);
 
 int
 main (int argc, char **argv)

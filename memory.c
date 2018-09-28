@@ -26,10 +26,9 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 
-void *	(*__gmp_allocate_func) _PROTO ((size_t)) = __gmp_default_allocate;
-void *	(*__gmp_reallocate_func) _PROTO ((void *, size_t, size_t))
-     = __gmp_default_reallocate;
-void	(*__gmp_free_func) _PROTO ((void *, size_t)) = __gmp_default_free;
+void *	(*__gmp_allocate_func)(size_t) = __gmp_default_allocate;
+void *	(*__gmp_reallocate_func)(void *, size_t, size_t) = __gmp_default_reallocate;
+void	(*__gmp_free_func)(void *, size_t) = __gmp_default_free;
 
 
 /* Default allocation functions.  In case of failure to allocate/reallocate

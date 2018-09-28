@@ -20,4 +20,4 @@ environment:
 build_script:
   - if [%COMPILER%]==[MinGW-w64] mkdir bin && cd bin\ && appveyor DownloadFile http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe -fileName yasm.exe
   - if [%COMPILER%]==[MinGW-w64] C:\msys64\usr\bin\sh.exe --login /c/projects/mpir/.appveyor_msys_build.sh
-
+  

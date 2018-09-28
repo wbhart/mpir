@@ -386,7 +386,6 @@ refmpn_com_n (mp_ptr rp, mp_srcptr sp, mp_size_t size)
     rp[i] = sp[i] ^ GMP_NUMB_MASK;
 }
 
-
 int
 refmpn_cmp (mp_srcptr xp, mp_srcptr yp, mp_size_t size)
 {
