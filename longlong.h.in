@@ -1,0 +1,5 @@
+#include "longlong_pre.h"
+
+@LONGLONG_CODE@
+
+#include "longlong_post.h"

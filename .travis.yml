@@ -6,6 +6,9 @@ os:
 compiler:
   - gcc
   - clang
+env:
+  - BUILDTOOL=autoconf
+  - BUILDTOOL=cmake
 addons:
   apt:
     packages:
@@ -24,5 +27,12 @@ script:
        export CXX=g++;
     fi
   - $CC --version
-  - ./autogen.sh
-  - ./configure && make && make check
+  - if [[ "${BUILDTOOL}" == "autoconf" ]]; then
+       ./autogen.sh;
+       ./configure && make && make check;
+    fi
+  - if [[ "${BUILDTOOL}" == "cmake" ]]; then
+       mkdir build && cd build;
+       cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DMPIR_GMP=ON -DMPIR_TESTS=ON;
+       make -j2 && make test;
+    fi
