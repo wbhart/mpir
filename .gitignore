@@ -499,6 +499,7 @@ tests/mpn/t-sizeinbase
 tests/mpn/t-subadd_n
 tests/mpn/t-tdiv_q
 tests/mpn/t-tdiv_qr
+tests/mpn/t-logic
 tests/t-bswap
 tests/t-constants
 tests/t-count_zeros
