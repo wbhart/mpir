@@ -3054,7 +3054,7 @@ This is similar to the standard C @code{frexp} function (@pxref{Normalization
 Functions,,, libc, The GNU C Library Reference Manual}).
 @end deftypefun
 
-@deftypefun mpir_si mpz_get_2exp_d (double *@var{???}, mpz_t @var{op})
+@deftypefun mpir_si mpz_get_2exp_d (double *@var{rop}, mpz_t @var{op})
 Convert @var{op} to a @code{double}, truncating if necessary (ie.@: rounding
 towards zero), and returning the exponent separately.
 
