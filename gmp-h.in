@@ -811,6 +811,9 @@ __GMP_DECLSPEC void mpz_divexact(mpz_ptr, mpz_srcptr, mpz_srcptr);
 #define mpz_divexact_ui __gmpz_divexact_ui
 __GMP_DECLSPEC void mpz_divexact_ui(mpz_ptr, mpz_srcptr, mpir_ui);
 
+#define mpz_divexact_gcd  __gmpz_divexact_gcd
+__GMP_DECLSPEC void mpz_divexact_gcd(mpz_ptr q, mpz_srcptr a, mpz_srcptr d);
+
 #define mpz_divisible_p __gmpz_divisible_p
 __GMP_DECLSPEC int mpz_divisible_p(mpz_srcptr, mpz_srcptr) __GMP_ATTRIBUTE_PURE;
 

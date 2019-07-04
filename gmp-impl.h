@@ -1541,9 +1541,6 @@ __GMP_DECLSPEC int mpn_mulmod_Bexpp1_fft(mp_ptr op, mp_size_t pl,
 /* #define mpn_tdiv_q  __MPN(tdiv_q) */
 /* void mpn_tdiv_q(mp_ptr, mp_size_t, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t); */
 
-#define mpz_divexact_gcd  __gmpz_divexact_gcd
-__GMP_DECLSPEC void mpz_divexact_gcd(mpz_ptr q, mpz_srcptr a, mpz_srcptr d);
-
 #define mpz_prodlimbs  __gmpz_prodlimbs
 __GMP_DECLSPEC mp_size_t mpz_prodlimbs (mpz_ptr, mp_ptr, mp_size_t);
 
