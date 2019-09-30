@@ -3,6 +3,9 @@ build:
   verbosity: minimal
   
 environment:
+  YASM_BINARY: yasm-1.3.0-win64.exe
+  YASM_DOWNLOAD: http://www.tortall.net/projects/yasm/releases/%YASM_BINARY%
+  MINGW_PREREQ: zip lzip
   matrix:
     - COMPILER: MinGW-w64
       ABI: 32
@@ -16,8 +19,18 @@ environment:
     - COMPILER: MinGW-w64
       ABI: 64
       LIB: --disable-static --enable-shared
+
+install:
+  - if [%COMPILER%]==[MinGW-w64] C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S %MINGW_PREREQ%"
+  - if not exist "%YASM_BINARY%" appveyor DownloadFile "%YASM_DOWNLOAD%"
+  - if [%COMPILER%]==[MinGW-w64] mkdir bin && copy "%YASM_BINARY%" bin\yasm.exe 1>NUL
  
 build_script:
-  - if [%COMPILER%]==[MinGW-w64] mkdir bin && cd bin\ && appveyor DownloadFile http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe -fileName yasm.exe
   - if [%COMPILER%]==[MinGW-w64] C:\msys64\usr\bin\sh.exe --login /c/projects/mpir/.appveyor_msys_build.sh
 
+cache:
+  - '%YASM_BINARY%'
+
+artifacts:
+  - path: mpir-3.*
+    name: source tarball
