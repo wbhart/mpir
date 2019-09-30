@@ -10,6 +10,6 @@ make
 #echo && echo build: DISTCHECK_CONFIGURE_FLAGS="ABI=$ABI $LIB" make distcheck
 #DISTCHECK_CONFIGURE_FLAGS="ABI=$ABI $LIB" make distcheck
 echo && echo build: make check
-make check
+make check && make -C tests testsuite-all.log
 echo && echo build: make dist
 make dist
