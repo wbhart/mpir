@@ -34,3 +34,8 @@ cache:
 artifacts:
   - path: mpir-3.*
     name: source tarball
+  - path: tests/testsuite-all.log
+    name: testsuite results
+
+on_failure:
+  - appveyor PushArtifact tests/testsuite-all.log
