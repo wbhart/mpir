@@ -36,3 +36,11 @@ libtests_la_LIBADD = $(libtests_la_DEPENDENCIES) $(top_builddir)/libmpir.la $(LI
 
 check_PROGRAMS = t-bswap t-constants t-count_zeros t-gmpmax t-hightomask t-modlinv t-parity t-popc t-sub 
 TESTS = $(check_PROGRAMS)
+
+TEST_SUITE_ALL_LOG = testsuite-all.log
+
+$(TEST_SUITE_ALL_LOG): $(TEST_SUITE_LOG) $(SUBDIRS)
+	@rm -rf $(TEST_SUITE_ALL_LOG); \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  cat $$subdir/$(TEST_SUITE_LOG) >> $(TEST_SUITE_ALL_LOG) 2>&1; \
+	done
