@@ -39,7 +39,7 @@
         mov     rax, rdx
         ret
 
-.1:     FRAME_PROC ?mpn_sandybridge_mul, 0, reg_save_list
+.1:     FRAME_PROC ?mpn_skylake_mul, 0, reg_save_list
         mov     r11, 5
         lea     rsi, [rdx+r8*8-40]
         lea     rdi, [rcx+r8*8-40]

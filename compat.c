@@ -24,18 +24,6 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 
 
-/* mpn_divexact_by3 was a function in gmp 3.0.1, but as of gmp 3.1 it's a
-   macro calling mpn_divexact_by3c.  */
-#if defined( _MSC_VER) && !defined( HAVE_NATIVE_mpn_divexact_by3 )
-
-mp_limb_t
-__MPN (divexact_by3) (mp_ptr dst, mp_srcptr src, mp_size_t size)
-{
-  return mpn_divexact_by3 (dst, src, size);
-}
-
-#endif
-
 /* mpn_divmod_1 was a function in gmp 3.0.1 and earlier, but marked obsolete
    in both gmp 2 and 3.  As of gmp 3.1 it's a macro calling mpn_divrem_1. */
 mp_limb_t

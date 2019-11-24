@@ -372,7 +372,7 @@
     LEAF_PROC mpn_redc_1
     cmp     r9, 1
     je      one
-    FRAME_PROC ?mpn_sandybridge_redc_1, 0, reg_save_list
+    FRAME_PROC ?mpn_skylake_redc_1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, r8
     mov     r8, rdx

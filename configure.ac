@@ -1940,9 +1940,12 @@ Use "--disable-static --enable-shared" to build just a DLL.])
     #
     # LDFLAGS="$LDFLAGS -Wl,--enable-auto-import"  this is too general
     if test "$enable_shared" = yes; then
-      GMP_LDFLAGS="$GMP_LDFLAGS -no-undefined -Wl,--export-all-symbols"
-      LIBGMP_LDFLAGS="$LIBGMP_LDFLAGS -Wl,--output-def,.libs/libmpir-3.dll.def"
-      LIBGMPXX_LDFLAGS="$LIBGMP_LDFLAGS -Wl,--output-def,.libs/libmpirxx-3.dll.def"
+      GMP_LDFLAGS="$GMP_LDFLAGS -no-undefined"
+      if test "$with_gnu_ld" = yes; then
+        GMP_LDFLAGS="$GMP_LDFLAGS -Wl,--export-all-symbols"
+        LIBGMP_LDFLAGS="$LIBGMP_LDFLAGS -Wl,--output-def,.libs/libmpir-3.dll.def"
+        LIBGMPXX_LDFLAGS="$LIBGMP_LDFLAGS -Wl,--output-def,.libs/libmpirxx-3.dll.def"
+      fi
       LIBGMP_DLL=1
     fi
     ;;

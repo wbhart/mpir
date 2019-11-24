@@ -37,7 +37,7 @@
 	ret
 
 	xalign  32
-.1:	FRAME_PROC mpn_sqr_basec1, 0, reg_save_list
+.1:	FRAME_PROC mpn_skylake_sqr_basec1, 0, reg_save_list
     mov     rdi, rcx
     mov     rsi, rdx
     mov     rdx, r8  
