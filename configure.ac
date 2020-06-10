@@ -1743,7 +1743,7 @@ AC_SUBST(CCAS)
 MPIR_AS=""
 if test -z "$with_yasm"; then
   echo "Looking for a system-wide yasm..."
-  MPIR_AS=`which yasm`
+  MPIR_AS=`command -v yasm`
   if test $? -ne 0; then
     AC_MSG_ERROR([no system-wide yasm found])
   fi
