@@ -952,7 +952,7 @@ MA 02110-1301, USA.
 2004-06-03  Kevin Ryde  <kevin@swox.se>
 
 	* gmp-impl.h (memset): Use a local char* pointer, in case parameter is
-	something else (eg. tune/common.c).  Reported by Emmanuel Thomé.
+	something else (eg. tune/common.c).  Reported by Emmanuel ThomÃ©.
 
 2004-06-01  Kevin Ryde  <kevin@swox.se>
 
@@ -978,7 +978,7 @@ MA 02110-1301, USA.
 
 	* gmp-impl.h (GET_STR_THRESHOLD_LIMIT): Lower outrageous value to 150.
 
-2004-05-21  Niels Möller  <nisse@lysator.liu.se>
+2004-05-21  Niels MÃ¶ller  <nisse@lysator.liu.se>
 
 	* tune/speed.h (SPEED_ROUTINE_MPN_GCD_CALL): Ensure first operand is
 	not smaller than 2nd operand.
@@ -1089,7 +1089,7 @@ MA 02110-1301, USA.
 2004-05-05  Torbjorn Granlund  <tege@swox.com>
 
 	* mpn/generic/mullow_n.c, mpn/generic/mullow_basecase.c: New files
-	(mainly by Niels Möller).
+	(mainly by Niels MÃ¶ller).
 	* configure.in, mpn/Makefile.am: Add them.
 
 	* gmp-impl.h (MULLOW_BASECASE_THRESHOLD, MULLOW_DC_THRESHOLD,
@@ -1219,7 +1219,7 @@ MA 02110-1301, USA.
 
 	* doc/gmp.texi (Reentrancy, Random State Initialization): Note
 	gmp_randinit use of gmp_errno is not thread safe.  Reported by Vincent
-	Lefèvre.
+	LefÃ¨vre.
 
 	* doc/gmp.texi (Random State Initialization): Add index entries for
 	gmp_errno and constants.
@@ -1459,7 +1459,7 @@ MA 02110-1301, USA.
 
 2004-03-01  Torbjorn Granlund  <tege@swox.com>
 
-	With Karl Hasselström:
+	With Karl HasselstrÃ¶m:
 	* mpn/generic/dc_divrem_n.c (mpn_dc_div_2_by_1): New function, with
 	meat from old mpn_dc_divrem_n.  Accept scratch parameter.  Rewrite to
 	avoid a recursive call.
@@ -1526,7 +1526,7 @@ MA 02110-1301, USA.
 	* configure.in (sparc64-*-*bsd*): Amend -m32 setup for ABI=32, so it's
 	not used in ABI=64 on the BSD systems.
 
-2004-02-18  Niels Möller  <nisse@lysator.liu.se>
+2004-02-18  Niels MÃ¶ller  <nisse@lysator.liu.se>
 
 	* tests/mpz/t-gcd.c (gcdext_valid_p): New function.
 	(ref_mpz_gcd): Deleted function.
@@ -1692,7 +1692,7 @@ MA 02110-1301, USA.
 	* configure.in (--with-readline=detect): Check for readline/readline.h
 	and readline/history.h.  Report result of detection.
 
-2004-01-12  Niels Möller  <nisse@lysator.liu.se>
+2004-01-12  Niels MÃ¶ller  <nisse@lysator.liu.se>
 
 	* tests/tests.h: Added refmpn_free_limbs prototype.
 	* tests/refmpn.c (refmpn_free_limbs): New function.
@@ -1851,7 +1851,7 @@ MA 02110-1301, USA.
 
 	* doc/gmp.texi (Integer Logic and Bit Fiddling): Say "bitwise" in
 	mpz_and, mpz_ior and mpz_xor, to avoid any confusion with what C means
-	by "logical".  Reported by Rüdiger Schütz.
+	by "logical".  Reported by RÃ¼diger SchÃ¼tz.
 
 	* gmp-h.in (_GMP_H_HAVE_FILE): Note why defined(EOF) is not good.
 
@@ -2023,7 +2023,7 @@ MA 02110-1301, USA.
 	* mpn/generic/get_str.c (mpn_get_str, POW2_P case):
 	Don't append extra '\0' byte.
 
-2003-12-05  Niels Möller  <niels@lysator.liu.se>
+2003-12-05  Niels MÃ¶ller  <niels@lysator.liu.se>
 
 	* tune/speed.h (mpn_gcd_accel): Added prototype.
 
@@ -2081,12 +2081,12 @@ MA 02110-1301, USA.
 	(Build Options): Add cpu types alphaev7 and amd64.  Update texinfo
 	html cross reference.
 
-2003-11-28  Niels Möller  <nisse@lysator.liu.se>
+2003-11-28  Niels MÃ¶ller  <nisse@lysator.liu.se>
 
 	* mpn/generic/gcd.c (MPN_LEQ_P): Copied macro definition (needed
 	for compilation with --enable-assert).
 
-2003-11-27  Niels Möller  <nisse@lysator.liu.se>
+2003-11-27  Niels MÃ¶ller  <nisse@lysator.liu.se>
 
 	* tests/mpz/t-gcd.c (gcd_values): Moved definition, so that we
 	don't need to forward declare the array.
@@ -2097,12 +2097,12 @@ MA 02110-1301, USA.
 	decrease # of test to 1000.
 	(gcd_values): Remove oversize test case.
 
-2003-11-26  Niels Möller  <niels@lysator.liu.se>
+2003-11-26  Niels MÃ¶ller  <niels@lysator.liu.se>
 
 	* tests/mpz/t-gcd.c (main): Added some tests with non-random
 	input.
 
-2003-11-25  Niels Möller  <nisse@lysator.liu.se>
+2003-11-25  Niels MÃ¶ller  <nisse@lysator.liu.se>
 
 	* gmp-impl.h (MPN_LEQ_P, MPN_EXTRACT_LIMB): New macros.
 
@@ -3177,7 +3177,7 @@ MA 02110-1301, USA.
 
 	* tests/mpz/bit.c (check_single): Correction to a diagnostic print.
 
-2003-07-24  Niels Möller  <nisse@lysator.liu.se>
+2003-07-24  Niels MÃ¶ller  <nisse@lysator.liu.se>
 
 	* mpz/combit.c: New file.
 	* Makefile.am, mpz/Makefile.am: Add it.
@@ -3826,7 +3826,7 @@ MA 02110-1301, USA.
 
 	* Makefile.am: Put gmp.h and mp.h under $(exec_prefix)/include.
 	* gmp.texi (Build Options): Add notes on this.
-	Reported by Vincent Lefèvre.
+	Reported by Vincent LefÃ¨vre.
 
 2003-03-06  Kevin Ryde  <kevin@swox.se>
 

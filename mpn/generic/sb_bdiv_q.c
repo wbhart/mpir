@@ -1,7 +1,7 @@
 /* mpn_sb_bdiv_q -- schoolbook Hensel division with precomputed inverse,
    returning quotient only.
 
-   Contributed to the GNU project by Niels Möller.
+   Contributed to the GNU project by Niels MÃ¶ller.
 
    THE FUNCTIONS IN THIS FILE ARE INTERNAL FUNCTIONS WITH MUTABLE INTERFACES.
    IT IS ONLY SAFE TO REACH THEM THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS

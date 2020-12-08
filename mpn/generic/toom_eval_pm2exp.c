@@ -1,6 +1,6 @@
 /* mpn_toom_eval_pm2exp -- Evaluate a polynomial in +2^k and -2^k
 
-   Contributed to the GNU project by Niels Möller
+   Contributed to the GNU project by Niels MÃ¶ller
 
    THE FUNCTION IN THIS FILE IS INTERNAL WITH A MUTABLE INTERFACE.  IT IS ONLY
    SAFE TO REACH IT THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST

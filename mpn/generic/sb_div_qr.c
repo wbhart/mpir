@@ -1,4 +1,4 @@
-/* mpn_sb_div_qr -- Schoolbook division using the Möller-Granlund 3/2
+/* mpn_sb_div_qr -- Schoolbook division using the MÃ¶ller-Granlund 3/2
    division algorithm.
 
    Contributed to the GNU project by Torbjorn Granlund.

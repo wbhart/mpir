@@ -1,7 +1,7 @@
 /* mpn_dc_bdiv_q -- divide-and-conquer Hensel division with precomputed
    inverse, returning quotient.
 
-   Contributed to the GNU project by Niels Möller and Torbjorn Granlund.
+   Contributed to the GNU project by Niels MÃ¶ller and Torbjorn Granlund.
 
    THE FUNCTIONS IN THIS FILE ARE INTERNAL WITH MUTABLE INTERFACES.  IT IS ONLY
    SAFE TO REACH THEM THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST

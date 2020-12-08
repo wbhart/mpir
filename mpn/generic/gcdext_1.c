@@ -55,7 +55,7 @@ mpn_gcdext_1 (mp_limb_signed_t *sp, mp_limb_signed_t *tp,
      V = s1 u + s0 v
 
      where U, V are the inputs (without any shared power of two),
-     and the matris has determinant ± 2^{shift}.
+     and the matris has determinant Â± 2^{shift}.
   */
   mp_limb_t s0 = 1;
   mp_limb_t t0 = 0;
@@ -228,7 +228,7 @@ mpn_gcdext_1 (mp_limb_signed_t *sp, mp_limb_signed_t *tp,
   ugh = ug/2 + (ug & 1);
   vgh = vg/2 + (vg & 1);
 
-  /* Now ±2^{shift} g = s0 U - t0 V. Get rid of the power of two, using
+  /* Now Â±2^{shift} g = s0 U - t0 V. Get rid of the power of two, using
      s0 U - t0 V = (s0 + V/g) U - (t0 + U/g) V. */
   for (i = 0; i < shift; i++)
     {
