@@ -583,7 +583,7 @@ Changes between GMP 4.2.1 and MPIR 0.9.0
 
   Speedups:
   * Jason Martin's Core 2 assembly patches
-  * Niels Möhler's GCD patches
+  * Niels MÃ¶hler's GCD patches
   * Pierrick Gaudry's AMD64 assembly patches
   * Tuning flags for P4, Prescott, Nocona and Core 2
 

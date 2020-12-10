@@ -24,7 +24,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.  */
 
 /* Uses the HGCD operation described in
 
-     N. Möller, On Schönhage's algorithm and subquadratic integer gcd
+     N. MÃ¶ller, On SchÃ¶nhage's algorithm and subquadratic integer gcd
      computation, Math. Comp. 77 (2008), 589-607.
 
   to reduce inputs until they are of size below GCD_DC_THRESHOLD, and

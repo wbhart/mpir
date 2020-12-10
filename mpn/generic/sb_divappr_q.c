@@ -1,4 +1,4 @@
-/* mpn_sb_divappr_q -- Schoolbook division using the Möller-Granlund 3/2
+/* mpn_sb_divappr_q -- Schoolbook division using the MÃ¶ller-Granlund 3/2
    division algorithm, returning approximate quotient.  The quotient returned
    is either correct, or one too large.
 

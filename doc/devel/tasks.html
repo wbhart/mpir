@@ -494,7 +494,7 @@ MA 02110-1301, USA.
      Set <code>ALLOC(var)</code> to 0 to indicate nothing allocated, and let
      <code>_mpz_realloc</code> do the initial alloc.  Set
      <code>z-&gt;_mp_d</code> to a dummy that <code>mpz_get_ui</code> and
-     similar can unconditionally fetch from.  Niels Möller has had a go at
+     similar can unconditionally fetch from.  Niels MÃ¶ller has had a go at
      this.
      <br>
      The advantages of the lazy scheme would be:
@@ -531,7 +531,7 @@ MA 02110-1301, USA.
      if they could share code with the current such functions (which should be
      possible).
 <li> <code>mpz_and_ui</code> etc might be of use sometimes.  Suggested by
-     Niels Möller.
+     Niels MÃ¶ller.
 <li> <code>mpf_set_str</code> and <code>mpf_inp_str</code> could usefully
      accept 0x, 0b etc when base==0.  Perhaps the exponent could default to
      decimal in this case, with a further 0x, 0b etc allowed there.

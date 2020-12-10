@@ -1,6 +1,6 @@
 /* mpn_toom_eval_pm2 -- Evaluate a polynomial in +2 and -2
 
-   Contributed to the GNU project by Niels Möller and Marco Bodrato
+   Contributed to the GNU project by Niels MÃ¶ller and Marco Bodrato
 
    THE FUNCTION IN THIS FILE IS INTERNAL WITH A MUTABLE INTERFACE.  IT IS ONLY
    SAFE TO REACH IT THROUGH DOCUMENTED INTERFACES.  IN FACT, IT IS ALMOST
