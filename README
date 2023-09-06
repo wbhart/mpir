@@ -85,10 +85,8 @@ the INSTALL file in this directory.
 
 			REPORTING BUGS
 
-If you find a bug in the library, please make sure to tell us about it!
-
-You should first check the MPIR web pages at http://www.mpir.org/. There will 
-be patches for all known serious bugs there.
+If you find a bug in the library, please make sure to tell us about it via
+the GitHub issue tracker!
 
 Report bugs to our development list: http://groups.google.com/group/mpir-devel.  
 What information is needed in a good bug report is described in the manual.  
