@@ -3384,9 +3384,8 @@ union ieee_double_extract
     } s;
   double d;
 };
-#endif
 
-#if HAVE_DOUBLE_IEEE_LITTLE_ENDIAN
+#elif HAVE_DOUBLE_IEEE_LITTLE_ENDIAN
 #define _GMP_IEEE_FLOATS 1
 union ieee_double_extract
 {
@@ -3399,9 +3398,8 @@ union ieee_double_extract
     } s;
   double d;
 };
-#endif
 
-#if HAVE_DOUBLE_IEEE_BIG_ENDIAN
+#else
 #define _GMP_IEEE_FLOATS 1
 union ieee_double_extract
 {
